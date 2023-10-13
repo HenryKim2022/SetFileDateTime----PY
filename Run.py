@@ -20,19 +20,14 @@ Tf = Target_File.lower()
 if (Tf.endswith(".xlsx")):
  	pass
 elif (Tf.endswith(".docx")):
-
-
 	# Open the Word document
 	document = Document(Target_File)
 
-	# Convert 'content_created' to datetime object
+	# Convert 'content_created' & 'date_last_saved' to datetime object
 	content_created = datetime.strptime(XCreated, "%m.%d.%Y %I:%M%p")
 	content_created = timezone('Asia/Jakarta').localize(content_created)
-
-	# Convert 'date_last_saved' to datetime object
 	date_last_saved = datetime.strptime(XModified, "%m.%d.%Y %I:%M%p")
 	date_last_saved = timezone('Asia/Jakarta').localize(date_last_saved)
-
 
 	# Get the core properties of the document
 	core_properties = document.core_properties
@@ -61,6 +56,7 @@ elif (Tf.endswith(".docx")):
 	# Update the "Content Created" and "Date Last Saved" properties
 	core_properties.created = content_created.astimezone(timezone('UTC'))
 	core_properties.modified = date_last_saved.astimezone(timezone('UTC'))
+
 
 	# Save the modified Word document
 	document.save(Target_File)
